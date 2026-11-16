@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>12 Days of Giving | Foundation for Community Care</title>
+  <meta name="description" content="Open a new gift each day from December 13 to 24 and see what the Foundation for Community Care has been doing for our community.">
+  <meta property="og:title" content="12 Days of Giving | Foundation for Community Care">
+  <meta property="og:description" content="Open a gift each day, share your story, and enter the raffle.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="snow" aria-hidden="true"></div>
+
+  <header class="hero">
+    <p class="eyebrow" id="orgLine"></p>
+    <h1>12 Days of <span>Giving</span></h1>
+    <p class="lede">A new gift opens every day at midnight Mountain Time. Unwrap each one to see what your community has made possible, then share your story and enter the raffle.</p>
+    <div class="countdown" id="countdown" role="timer" aria-live="off"></div>
+  </header>
+
+  <main>
+    <ol class="grid" id="grid"></ol>
+    <p class="fineprint" id="raffleNote"></p>
+  </main>
+
+  <footer>
+    <a class="btn btn-ghost" id="donateBtn" href="#">Give to FFCC</a>
+    <p id="footOrg"></p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <dialog id="dlg" aria-labelledby="dlgTitle">
+    <button class="close" id="dlgClose" aria-label="Close">×</button>
+    <div class="dlg-body" id="dlgBody"></div>
+  </dialog>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
