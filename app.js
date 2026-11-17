@@ -111,7 +111,7 @@
       '<div class="card" id="card">' +
         '<div class="cover" id="cover" role="button" tabindex="0" aria-label="Open your Day ' + n + ' card">' +
           '<div class="snowrow" aria-hidden="true">❄ ❅ ❄ ❅ ❄</div>' +
-          '<p class="c-eyebrow">A gift from the<br>' + esc(C.orgName) + "</p>" +
+          '<p class="c-eyebrow">Made possible by the<br>generosity of our community</p>' +
           '<div class="wreath"><span class="bow" aria-hidden="true">🎀</span><span class="c-day">Day</span><span class="c-num">' + n + '</span><span class="c-of">of ' + COUNT + "</span></div>" +
           '<p class="c-verse">' + (d.verse ? "&ldquo;" + esc(d.verse) + "&rdquo;" : "Merry Christmas") + "</p>" +
           '<p class="c-date">' + dateLabel(n) + '</p>' +
@@ -125,7 +125,7 @@
           (d.headline ? "<h3>" + esc(d.headline) + "</h3>" : "") +
           gallery(d) + '<div class="story">' + story + "</div>" + campaign +
           (btns ? '<div class="actions">' + btns + "</div>" : "") +
-          '<p class="sign">With gratitude,<br><span>Your friends at the ' + esc(C.orgName) + "</span></p>" +
+          '<p class="sign">With gratitude,<br><span>The ' + esc(C.orgName) + "</span></p>" +
           '<section class="reply"><h3>Write back to us</h3>' +
           '<p class="small">Share your experience with ' + esc(d.title) + " and add your name to enter the raffle.</p>" +
           '<div id="formSlot"></div></section>' +
