@@ -15,64 +15,46 @@ window.FFCC_CONFIG = {
   donateUrl: "#",               // TODO: general "Give to FFCC" link (footer button)
   raffleNote: "One entry per person per day. Winner announced after December 24.", // TODO: confirm rules
 
+  // Background music (optional). Visitors tap a button to play it; browsers
+  // block music that starts on its own. Upload the file to the repo (e.g. music/carol.mp3)
+  // and use a recording you have the rights to use.
+  music: {
+    src: "",                    // e.g. "music/twelve-days.mp3"; leave empty to hide the music button
+    volume: 0.35
+  },
+
   // Cognito Forms embed.
-  // In Cognito: Share > Embed > iFrame, then copy the URL inside src="..."
-  // It looks like https://www.cognitoforms.com/f/XXXXXXXX/NN
   cognito: {
     embedUrl: "https://www.cognitoforms.com/FoundationForCommunityCare1/FFCCs12DaysOfChristmas",
     height: 720,
     prefillField: ""            // optional: name of a form field (e.g. "Day") to auto-fill with the day number
   },
 
-  /* Each day: icon, title, short teaser (shown on the gift), then the
-     content people see after opening it. body = array of paragraphs. */
+  // Shown on days marked campaign: true
+  campaign: { note: "To date, over $3.9 million has been raised to help support the Sidney Health Center Capital Campaign for Labor and Delivery, Pediatrics, Outreach Clinics, and the Cancer Center. All thanks to the generous hearts of our wonderful community. There is only about $1.3 million left to reach our goal, and that is a testament to how amazing our community is!" },
+
+  /* Each day:
+       icon, title         shown inside the card
+       verse               song-style line shown on the card cover and above the title
+       headline            optional subheading
+       body[]              paragraphs (a string) or { list: [ { b: "Bold lead-in:", t: "text" } ] }
+       photos[]            { src: "images/file.jpg", alt: "...", caption: "..." (optional) }
+       campaign: true      adds the capital campaign update box
+       link, linkLabel     optional extra button (leave link "" to hide)
+       donateUrl           "" = "Donation link coming soon" placeholder, false = no donate button
+       donateLabel         text on the donate button */
   days: [
-    {
-      icon: "🎗️", title: "Cancer Center",
-      headline: "Placeholder headline for the Cancer Center",
-      body: ["Placeholder: what FFCC recently did for the Cancer Center and who it helps."],
-      linkLabel: "Learn more", link: "#", donateUrl: ""
-    },
-    {
-      icon: "👶", title: "Labor & Delivery",
-      headline: "Placeholder headline for Labor & Delivery",
-      body: ["Placeholder: what FFCC recently did for Labor & Delivery."],
-      linkLabel: "Learn more", link: "#", donateUrl: ""
-    },
-    {
-      icon: "🧸", title: "Pediatrics",
-      headline: "Placeholder headline for Pediatrics",
-      body: ["Placeholder: what FFCC recently did for Pediatrics."],
-      linkLabel: "Learn more", link: "#", donateUrl: ""
-    },
-    {
-      icon: "🩺", title: "Specialty Clinics",
-      headline: "Placeholder headline for Specialty Clinics",
-      body: ["Placeholder: what FFCC recently did for the Specialty Clinics."],
-      linkLabel: "Learn more", link: "#", donateUrl: ""
-    },
-    {
-      icon: "🚁", title: "Care Flight",
-      headline: "Placeholder headline for Care Flight",
-      body: ["Placeholder: what FFCC recently did for Care Flight."],
-      linkLabel: "Learn more", link: "#", donateUrl: ""
-    },
-    {
-      icon: "🌉", title: "Bridge Fund",
-      headline: "Placeholder headline for the Bridge Fund",
-      body: ["Placeholder: what the Bridge Fund recently did."],
-      linkLabel: "Learn more", link: "#", donateUrl: ""
-    },
-    {
-      icon: "💛", title: "Cancer Coalition Fund",
-      headline: "Placeholder headline for the Cancer Coalition Fund",
-      body: ["Placeholder: what the Cancer Coalition Fund recently did."],
-      linkLabel: "Learn more", link: "#", donateUrl: ""
-    },
-    { icon: "🎁", title: "Project 8 (placeholder)",  headline: "Placeholder headline", body: ["Placeholder content."], linkLabel: "Learn more", link: "#", donateUrl: "" },
-    { icon: "🎁", title: "Project 9 (placeholder)",  headline: "Placeholder headline", body: ["Placeholder content."], linkLabel: "Learn more", link: "#", donateUrl: "" },
-    { icon: "🎁", title: "Project 10 (placeholder)", headline: "Placeholder headline", body: ["Placeholder content."], linkLabel: "Learn more", link: "#", donateUrl: "" },
-    { icon: "🎁", title: "Project 11 (placeholder)", headline: "Placeholder headline", body: ["Placeholder content."], linkLabel: "Learn more", link: "#", donateUrl: "" },
-    { icon: "🎄", title: "Project 12 (placeholder)", headline: "Placeholder headline", body: ["Placeholder content."], linkLabel: "Learn more", link: "#", donateUrl: "" }
+    {"headline":"","link":"","linkLabel":"Learn more","icon":"👶","title":"New Delivery Rooms","verse":"New delivery rooms","photos":[{"src":"images/day01-a.jpg","alt":"A new Labor and Delivery room"},{"src":"images/day01-b.jpg","alt":"Inside the new Labor and Delivery unit"}],"body":["The new Sidney Health Center Labor and Delivery Unit features Labor, Delivery, Recovery, Postpartum (LDRP) rooms equipped with Hill-Rom birthing beds. A variety of pain management options are available during labor, and trained, experienced OB and nursery staff is available 24 hours a day to support patients and their families. The renovation focused on creating a modern, family-centered birthing environment while enhancing comfort, privacy, and quality of care. The Foundation for Community Care is proud to have supported this project.","Sidney Health Center's commitment to families extends beyond childbirth. The obstetric team offers a variety of pre- and post-delivery support services, including:",{"list":[{"b":"One-Day Childbirth Classes:","t":"These free classes are designed for expectant parents and cover relaxation techniques, the physiology of childbirth, delivery methods, anesthesia options, breastfeeding, and infant care."},{"b":"Nurture Nest Café:","t":"Held monthly on the second Tuesday from 3:00 p.m. to 5:00 p.m. in the Sidney Health Center OB/GYN Clinic Waiting Room, this drop-in event provides valuable support for families with children from newborn to toddler. A nurse is available to weigh babies and answer questions, offering a resourceful space for breastfeeding support and general parenting advice."}]}],"campaign":true,"donateUrl":"https://secure.qgiv.com/for/wnhtvm/","donateLabel":"Give to the Capital Campaign"},
+    {"headline":"","link":"","linkLabel":"Learn more","icon":"🛁","title":"New Jet Tubs","verse":"New jet tubs","body":["Placeholder: the new jet tubs for laboring moms."],"photos":[],"campaign":true,"donateUrl":"","donateLabel":"Give to the Capital Campaign"},
+    {"headline":"","link":"","linkLabel":"Learn more","icon":"🧸","title":"Pediatrics","verse":"Kiddos growing","photos":[{"src":"images/professional-building.jpg","alt":"The Professional Building, 1405 4th St SW, Sidney"},{"src":"images/day03-peds-rooms.jpg","alt":"The new Pediatric Clinic waiting room and exam room"}],"body":["The Sidney Health Center Pediatric Clinic provides care for children from birth through age 18, with care often extending to age 21 for patients with chronic conditions. Services include routine wellness visits, growth and development monitoring, immunizations, treatment of acute illnesses, and management of chronic conditions. As patients transition into adulthood, the pediatric team works closely with family and internal medicine providers to ensure continuity of care. The Foundation for Community Care is proud to have supported this project and the move to their new space at the Professional Building (1405 4th St SW in Sidney)."],"campaign":true,"donateUrl":"https://secure.qgiv.com/for/wnhtvm/","donateLabel":"Give to the Capital Campaign"},
+    {"headline":"","link":"","linkLabel":"Learn more","icon":"🩺","title":"Visiting Doctors","verse":"Visiting doctors","photos":[{"src":"images/professional-building.jpg","alt":"The Professional Building, 1405 4th St SW, Sidney"},{"src":"images/day04-specialty-rooms.jpg","alt":"The new Specialty/Outreach Clinic waiting room and exam room"}],"body":["The new Sidney Health Center Specialty/Outreach Clinic provides a space to accommodate visiting specialists such as cardiologists, urologists, ENT specialists, and more. Gone are the days when visiting specialists had no permanent space at the hospital and their locations kept changing. They now have a home at the Professional Building (1405 4th St SW in Sidney). The Foundation for Community Care is proud to have supported this project and the move to their new space at the Professional Building."],"campaign":true,"donateUrl":"https://secure.qgiv.com/for/wnhtvm/","donateLabel":"Give to the Capital Campaign"},
+    {"headline":"","link":"","linkLabel":"Learn more","icon":"🔬","title":"PET Scanner at the Cancer Center","verse":"Days providing PET scans","photos":[{"src":"images/day05-pet-scanner.jpg","alt":"The new PET/CT scanner at Sidney Health Center"}],"body":["Sidney Health Center is now offering in-house PET/CT scans, marking an important milestone in expanding access to advanced cancer care for patients throughout eastern Montana and western North Dakota. Made possible through a $2.3 million grant from The Leona M. and Harry B. Helmsley Charitable Trust, the new Canon Cartesion Prime Digital PET/CT scanner replaces the hospital's previous mobile PET/CT service with a permanent imaging system located in the Cancer Care Suite. The grant was written and submitted by the Foundation for Community Care, helping secure the funding needed to bring this advanced technology to Sidney Health Center.","This advancement allows patients to receive important diagnostic imaging closer to home, with greater flexibility in scheduling and improved coordination of care. With the addition of permanent PET/CT imaging, Sidney Health Center continues to strengthen its comprehensive cancer care services by bringing advanced diagnostics, treatment planning, medical oncology and radiation therapy together in one convenient location. This milestone reflects the organization's ongoing commitment to providing high-quality cancer care for patients throughout the region."],"campaign":true,"donateUrl":"https://secure.qgiv.com/for/wnhtvm/","donateLabel":"Give to the Capital Campaign"},
+    {"headline":"","link":"","linkLabel":"Learn more","icon":"📚","title":"Student Nurses Learning","verse":"Student nurses learning","body":["Placeholder: the new education classroom in the Professional Building."],"photos":[],"donateUrl":"","donateLabel":"Give"},
+    {"headline":"","link":"","linkLabel":"Learn more","icon":"🚁","title":"Care Flight","photos":[{"src":"images/day07-care-flight-a.jpg","alt":"The SHC Care Flight air ambulance"},{"src":"images/day07-care-flight-b.jpg","alt":"The SHC Care Flight plane on the ramp"}],"body":["In 2021, Sidney Health Center (SHC) launched a joint venture with fAIRMED, a critical care transport company, to bring an affordable air ambulance service to residents living in the MonDak region. Through donations from the Foundation for Community Care and Richland County, SHC was able to secure $2.9 million in funding to purchase a plane for a new air ambulance service known as the SHC Care Flight. The Care Flight is a great example of community resources working together to ensure access to critical care as it continues to be a valuable healthcare service in our community.","In 2025, the SHC Care Flight had a total of 538 flights. Since the service started in 2021, the Care Flight has done 1,908 flights in total."],"donateUrl":"https://secure.qgiv.com/for/careflight/","donateLabel":"Give to Care Flight"},
+    {"headline":"","link":"","linkLabel":"Learn more","icon":"🌉","title":"Bridge Fund","photos":[{"src":"images/day08-bridge.jpg","alt":"A bridge in Sidney"}],"body":["The Bridge Fund helps community members who have been referred outside of Sidney Health Center by a Sidney Health Center physician for care. This fund is meant to help patients that are required to travel to other facilities to receive healthcare that is not offered at Sidney Health Center.","As of November 16, 2026, 65 individuals have been awarded grants from this fund, amounting to $32,500. Since its inception in 2003, the Bridge Fund has had 857 grantees with a total of $352,657.12."],"donateUrl":"https://secure.qgiv.com/for/bridgefund/","donateLabel":"Give to the Bridge Fund"},
+    {"headline":"","link":"","linkLabel":"Learn more","icon":"🎗️","title":"Cancer Coalition Fund","photos":[{"src":"images/day09-cancer-coalition-logo.jpg","alt":"Cancer Coalition logo"},{"src":"images/day09-check-presentation.jpg","alt":"Check presentation to the Foundation for Community Care","caption":"Lambert Superintendent Kara Triplett and Richey Superintendent Thomas Baldwin present a check from the R&L Fusion athletes to Melissa Boyer, the Foundation's Director."}],"body":["The Cancer Coalition Fund helps surrounding area residents who have been diagnosed with cancer with any costs they may incur with their diagnosis. Any Richland County resident or residents in surrounding areas receiving treatment at the SHC Cancer Care may apply for this fund. It helps ease some of the anxiety of battling a life-threatening disease, and lets patients know they are supported by our generous community.","As of November 16, 2026, 37 individuals have been awarded grants from this fund, amounting to $18,500. Since its inception in 2013, the Cancer Coalition Fund has had 613 grantees with a total of $359,250.00.","Funds were raised by the R&L Fusion athletes during their “Pack-it-in-Pink” events. The Lions Football team held an auction for two hours of service work, and the Volleyball team held a bake sale. Proceeds will impact the Richland County Cancer Coalition Fund, which offers a grant to area cancer patients who are actively receiving treatment. Thank you to everyone that supported this cause. We are so proud of these athletes and their dedication to the community!"],"donateUrl":"https://secure.qgiv.com/for/cancercoalitionfund/","donateLabel":"Give to the Cancer Coalition Fund"},
+    {"headline":"","link":"","linkLabel":"Learn more","icon":"🎓","title":"Scholarship Fund","photos":[{"src":"images/day10-scholarship.jpg","alt":"Healthcare Scholarship Fund"}],"body":["The Healthcare Scholarship Fund was added to the Foundation assistance funds to assist individuals in the completion of medical training, with the ultimate goal that they return home to eastern Montana to practice. In 2026, a total of $22,500 was awarded to 17 students. Since it started in 2006, $189,700 has been awarded in scholarships to students in a variety of programs, from administration to nursing to Family Practice.","Available scholarship programs include: Healthcare Scholarship; Jessica, Nathan, & Tiffany Vannatta Memorial Healthcare Scholarship; the Josh King Memorial Scholarship (Ambulance Education); and the Fallen Heroes Volunteer Scholarship."],"donateUrl":"https://secure.qgiv.com/for/schofun/","donateLabel":"Give to the Scholarship Fund"},
+    {"headline":"","link":"https://www.youtube.com/@foundationforcommunitycare6581","linkLabel":"Subscribe on YouTube","icon":"🏥","title":"Sidney Health Center Grants","photos":[],"body":["The support from the community allows the Foundation to proudly support Sidney Health Center through vital grants that enhance equipment, improve facilities, and invest in the tools our healthcare teams need to provide exceptional care, right here at home.","In 2026, a total of $277,037.66 was awarded to various Sidney Health Center departments. Since its inception in 1984, the Foundation has given out a total of $4,654,229.11 to support Sidney Health Center through this grant program."],"donateUrl":false},
+    {"headline":"","link":"https://www.youtube.com/@foundationforcommunitycare6581","linkLabel":"Subscribe on YouTube","icon":"🏡","title":"Community Grants","verse":"A community that cares for me","photos":[],"body":["The support from the community allows the Foundation to invest in programs and equipment that strengthen healthcare, support wellness, and enhance the quality of life for people of all ages in our community.","In 2026, a total of $95,766.99 was awarded to various organizations in Richland County and surrounding areas. Since its inception in 1984, the Foundation has given out a total of $1,104,578.47 back to the community through this grant program."],"donateUrl":false}
   ]
 };

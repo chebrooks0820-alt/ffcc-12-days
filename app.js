@@ -86,30 +86,92 @@
     openDialog(n);
   }
 
-  /* ---------- Dialog ---------- */
+  /* ---------- Dialog (the greeting card) ---------- */
   function openDialog(n) {
-    var d = C.days[n - 1], body = $("dlgBody");
-    var paras = (d.body || []).map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("");
-    var link = d.link && d.link !== "#"
-      ? '<a class="btn" href="' + attr(d.link) + '" target="_blank" rel="noopener">' + esc(d.linkLabel || "Learn more") + "</a>"
-      : '<span class="btn btn-disabled">' + esc(d.linkLabel || "Learn more") + " (link coming soon)</span>";
-    var hasGive = d.donateUrl && d.donateUrl !== "#";
-    var give = hasGive
-      ? '<a class="btn btn-give" href="' + attr(d.donateUrl) + '" target="_blank" rel="noopener">Give to ' + esc(d.title) + "</a>"
-      : '<span class="btn btn-disabled">Donation link coming soon</span>';
-    body.innerHTML =
-      '<div class="dlg-icon" aria-hidden="true">' + d.icon + "</div>" +
-      '<p class="eyebrow">Day ' + n + " of " + COUNT + " · " + dateLabel(n) + "</p>" +
-      '<h2 id="dlgTitle">' + esc(d.title) + "</h2>" +
-      '<h3>' + esc(d.headline || "") + "</h3>" + paras +
-      '<div class="actions">' + link + give + "</div>" +
-      '<hr><h3>Share your story &amp; enter the raffle</h3>' +
-      '<p class="small">Tell us about your experience with ' + esc(d.title) + ". Add your name to enter the raffle.</p>" +
-      '<div id="formSlot"></div>';
+    var d = C.days[n - 1];
+    var story = (d.body || []).map(function (p) {
+      if (typeof p === "string") return "<p>" + esc(p) + "</p>";
+      if (p && p.list) return "<ul>" + p.list.map(function (li) {
+        return "<li>" + (li.b ? "<b>" + esc(li.b) + "</b> " : "") + esc(li.t || "") + "</li>";
+      }).join("") + "</ul>";
+      return "";
+    }).join("");
+    var campaign = d.campaign && C.campaign && C.campaign.note
+      ? '<aside class="campaign"><span class="campaign-tag">Capital Campaign Update</span><p>' + esc(C.campaign.note) + "</p></aside>" : "";
+    var btns = "";
+    if (d.link && d.link !== "#") {
+      btns += '<a class="btn btn-ghost-dark" href="' + attr(d.link) + '" target="_blank" rel="noopener">' + esc(d.linkLabel || "Learn more") + "</a>";
+    }
+    if (d.donateUrl !== false) {
+      btns += d.donateUrl && d.donateUrl !== "#"
+        ? '<a class="btn btn-give" href="' + attr(d.donateUrl) + '" target="_blank" rel="noopener">' + esc(d.donateLabel || "Give to " + d.title) + "</a>"
+        : '<span class="btn btn-disabled">Donation link coming soon</span>';
+    }
+    $("dlgBody").innerHTML =
+      '<div class="card" id="card">' +
+        '<div class="cover" id="cover" role="button" tabindex="0" aria-label="Open your Day ' + n + ' card">' +
+          '<div class="snowrow" aria-hidden="true">❄ ❅ ❄ ❅ ❄</div>' +
+          '<p class="c-eyebrow">A gift from the<br>' + esc(C.orgName) + "</p>" +
+          '<div class="wreath"><span class="bow" aria-hidden="true">🎀</span><span class="c-day">Day</span><span class="c-num">' + n + '</span><span class="c-of">of ' + COUNT + "</span></div>" +
+          '<p class="c-verse">' + (d.verse ? "&ldquo;" + esc(d.verse) + "&rdquo;" : "Merry Christmas") + "</p>" +
+          '<p class="c-date">' + dateLabel(n) + '</p>' +
+          '<span class="tap">Tap to open your card</span>' +
+        "</div>" +
+        '<article class="inside">' +
+          '<p class="orn" aria-hidden="true">✦ ❄ ✦</p>' +
+          '<p class="eyebrow">Day ' + n + " of " + COUNT + " · " + dateLabel(n) + "</p>" +
+          (d.verse ? '<p class="verse">&ldquo;' + esc(d.verse) + "&rdquo;</p>" : "") +
+          '<h2 id="dlgTitle">' + (d.icon ? '<span aria-hidden="true">' + d.icon + "</span> " : "") + esc(d.title) + "</h2>" +
+          (d.headline ? "<h3>" + esc(d.headline) + "</h3>" : "") +
+          gallery(d) + '<div class="story">' + story + "</div>" + campaign +
+          (btns ? '<div class="actions">' + btns + "</div>" : "") +
+          '<p class="sign">With gratitude,<br><span>Your friends at the ' + esc(C.orgName) + "</span></p>" +
+          '<section class="reply"><h3>Write back to us</h3>' +
+          '<p class="small">Share your experience with ' + esc(d.title) + " and add your name to enter the raffle.</p>" +
+          '<div id="formSlot"></div></section>' +
+        "</article>" +
+      "</div>";
     mountForm(n);
+    var cover = $("cover");
+    cover.addEventListener("click", openCard);
+    cover.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openCard(); } });
     var dlg = $("dlg");
     if (!dlg.open) dlg.showModal();
     dlg.scrollTop = 0;
+    cover.focus({ preventScroll: true });
+  }
+
+  function openCard() {
+    var card = $("card");
+    if (!card || card.classList.contains("open") || card.classList.contains("opening")) return;
+    var done = function () { card.classList.remove("opening"); card.classList.add("open"); $("dlg").scrollTop = 0; };
+    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) done();
+    else { card.classList.add("opening"); setTimeout(done, 700); }
+  }
+
+  function gallery(d) {
+    var ph = d.photos || [];
+    if (!ph.length) return "";
+    return '<div class="gallery">' + ph.map(function (p) {
+      var o = typeof p === "string" ? { src: p } : p;
+      return '<figure><img loading="lazy" src="' + attr(o.src) + '" alt="' + esc(o.alt || o.caption || d.title) + '">' +
+        (o.caption ? "<figcaption>" + esc(o.caption) + "</figcaption>" : "") + "</figure>";
+    }).join("") + "</div>";
+  }
+
+  function music() {
+    var m = C.music || {}, btn = $("musicBtn"), au = $("bgm");
+    if (!m.src) return;
+    au.src = m.src; au.volume = m.volume || 0.35; btn.hidden = false;
+    btn.addEventListener("click", function () {
+      if (au.paused) {
+        var pr = au.play();
+        if (pr && pr.catch) pr.catch(function () { toast("Couldn't play the music on this device."); });
+        btn.setAttribute("aria-pressed", "true"); btn.textContent = "🔊 Music on";
+      } else {
+        au.pause(); btn.setAttribute("aria-pressed", "false"); btn.textContent = "🎵 Music off";
+      }
+    });
   }
 
   function mountForm(n) {
@@ -153,7 +215,7 @@
 
   /* ---------- Utilities ---------- */
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
-  function attr(s) { return /^(https?:|mailto:|\/|\.|#)/i.test(s) ? esc(s) : "#"; }
+  function attr(s) { return /^\s*(javascript|data|vbscript):/i.test(s) ? "#" : esc(s); }
   var tt;
   function toast(m) { var t = $("toast"); t.textContent = m; t.classList.add("show"); clearTimeout(tt); tt = setTimeout(function () { t.classList.remove("show"); }, 2800); }
 
@@ -181,7 +243,7 @@
   $("dlg").addEventListener("click", function (e) { if (e.target === this) this.close(); });
 
   var lastKey = todayKey();
-  render(); tick(); snow();
+  render(); tick(); snow(); music();
   setInterval(function () {
     tick();
     var k = todayKey();
